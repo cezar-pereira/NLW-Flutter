@@ -9,8 +9,8 @@ class ChartWidget extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Container(
-            width: double.maxFinite,
-            height: double.maxFinite,
+            height: 80,
+            width: 80,
             child: CircularProgressIndicator(
               strokeWidth: 10,
               value: .75,
