@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var listLevels = ["Fácil", "Médio", "Difícil", "Perito"];
   final controller = HomeController();
 
   @override
@@ -33,35 +34,35 @@ class _HomePageState extends State<HomePage> {
             appBar: AppBarWidget(
               user: controller.user!,
             ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        LevelButtonWidget(label: "Fácil"),
-                        LevelButtonWidget(label: "Médio"),
-                        LevelButtonWidget(label: "Difícil"),
-                        LevelButtonWidget(label: "Perito"),
-                      ],
-                    ),
+            body: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  child: Container(
+                    height: 35,
+                    child: ListView.separated(
+                        padding: EdgeInsets.symmetric(horizontal: 24),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (_, index) {
+                          return LevelButtonWidget(label: listLevels[index]);
+                        },
+                        separatorBuilder: (_, __) => SizedBox(width: 8),
+                        itemCount: listLevels.length),
                   ),
-                  Expanded(
-                    child: Container(
-                      child: GridView.count(
-                          mainAxisSpacing: 20,
-                          crossAxisSpacing: 20,
-                          crossAxisCount: 2,
-                          children: controller.quizzes!
-                              .map((quiz) => QuizCardWidget(quizModel: quiz))
-                              .toList()),
-                    ),
-                  )
-                ],
-              ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: GridView.count(
+                        mainAxisSpacing: 20,
+                        crossAxisSpacing: 20,
+                        crossAxisCount: 2,
+                        children: controller.quizzes!
+                            .map((quiz) => QuizCardWidget(quizModel: quiz))
+                            .toList()),
+                  ),
+                )
+              ],
             ),
           );
         } else if (value == HomeState.error) {
