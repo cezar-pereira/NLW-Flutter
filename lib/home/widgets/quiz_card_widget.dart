@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:nlw_flutter/core/core.dart';
+import 'package:nlw_flutter/shared/models/quiz_model.dart';
 import 'package:nlw_flutter/shared/widgets/linear_progress_indicator_widget.dart';
 
 class QuizCardWidget extends StatelessWidget {
+  final QuizModel quizModel;
+
+  QuizCardWidget({required this.quizModel});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,15 +27,18 @@ class QuizCardWidget extends StatelessWidget {
             child: Image.asset(AppImages.blocks),
           ),
           Text(
-            "Gerenciamento de estado",
+            quizModel.title,
             style: AppTextStyles.heading15,
           ),
           Row(
             children: [
-              Text("3 de 10"),
+              Text(
+                  "${quizModel.questionsAnswered} de ${quizModel.questions.length}"),
               SizedBox(width: 16),
               Expanded(
-                child: LinearProgressIndicatorWidget(value: 0.3),
+                child: LinearProgressIndicatorWidget(
+                    value: quizModel.questionsAnswered /
+                        quizModel.questions.length),
               ),
             ],
           )

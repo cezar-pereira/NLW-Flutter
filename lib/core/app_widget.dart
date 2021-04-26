@@ -10,7 +10,7 @@ class AppWidget extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "nlw_flutter",
       home: Scaffold(
-        body: ChallengePage(),
+        body: HomePage(),
       ),
     );
   }
