@@ -1,18 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:nlw_flutter/core/core.dart';
+import 'package:nlw_flutter/shared/models/question_model.dart';
 
-class QuizWidget extends StatelessWidget {
-  final String title;
+import 'awnser_widget.dart';
 
-  const QuizWidget({Key? key, required this.title}) : super(key: key);
+class QuizWidget extends StatefulWidget {
+  final QuestionModel question;
+  final VoidCallback onChange;
 
+  const QuizWidget({Key? key, required this.question, required this.onChange})
+      : super(key: key);
+
+  @override
+  _QuizWidgetState createState() => _QuizWidgetState();
+}
+
+class _QuizWidgetState extends State<QuizWidget> {
+  int indexSelected = -1;
   @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
         children: [
-          Text(title, style: AppTextStyles.heading),
-          SizedBox(height: 24)
+          SizedBox(height: 64),
+          Text(widget.question.title, style: AppTextStyles.heading),
+          SizedBox(height: 24),
+          for (var i = 0; i < widget.question.awnsers.length; i++)
+            AwnserWidget(
+                disabled: indexSelected != -1,
+                awnser: widget.question.awnsers[i],
+                isSelected: indexSelected == i,
+                onTap: () {
+                  indexSelected = i;
+
+                  setState(() {});
+                  Future.delayed(Duration(seconds: 1))
+                      .then((value) => widget.onChange());
+                }),
         ],
       ),
     );
