@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:nlw_flutter/challenge/challenge_controller.dart';
-import 'package:nlw_flutter/challenge/widgets/next_button_widget.dart';
 import 'package:nlw_flutter/challenge/widgets/question_indicator_widget.dart';
-import 'package:nlw_flutter/shared/models/question_model.dart';
+import 'package:nlw_flutter/result/resul_page.dart';
+import 'package:nlw_flutter/shared/models/quiz_model.dart';
+import 'package:nlw_flutter/shared/widgets/next_button_widget.dart';
 
 import 'widgets/quiz_widget.dart';
 
 class ChallengePage extends StatefulWidget {
-  final List<QuestionModel> questions;
+  final QuizModel quizModel;
 
-  const ChallengePage({Key? key, required this.questions}) : super(key: key);
+  const ChallengePage({Key? key, required this.quizModel}) : super(key: key);
   @override
   _ChallengePageState createState() => _ChallengePageState();
 }
@@ -29,10 +30,14 @@ class _ChallengePageState extends State<ChallengePage> {
 
   void nextPage() {
     print("currentPage ${controller.getCurrentPage().value}");
-    print("length ${widget.questions.length}");
-    if (controller.getCurrentPage().value < widget.questions.length)
+    print("length ${widget.quizModel.questions.length}");
+    if (controller.getCurrentPage().value < widget.quizModel.questions.length)
       pageController.nextPage(
           duration: Duration(milliseconds: 300), curve: Curves.linear);
+  }
+
+  void isRight(value) {
+    if (value) controller.correctAnswers++;
   }
 
   @override
@@ -57,7 +62,7 @@ class _ChallengePageState extends State<ChallengePage> {
                           top: true,
                           child: QuestionIndicatorWidget(
                             currentPage: value,
-                            length: widget.questions.length,
+                            length: widget.quizModel.questions.length,
                           )),
                     ],
                   ),
@@ -67,9 +72,12 @@ class _ChallengePageState extends State<ChallengePage> {
                 child: PageView(
                   physics: NeverScrollableScrollPhysics(),
                   controller: pageController,
-                  children: widget.questions
+                  children: widget.quizModel.questions
                       .map((e) => QuizWidget(
-                            onChange: nextPage,
+                            onSelected: (value) {
+                              isRight(value);
+                              nextPage();
+                            },
                             question: e,
                           ))
                       .toList(),
@@ -79,14 +87,23 @@ class _ChallengePageState extends State<ChallengePage> {
                 bottom: true,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                  child: ((value) < widget.questions.length)
+                  child: ((value) < widget.quizModel.questions.length)
                       ? NextButtonWidget.white(
                           label: "Pular",
                           onTap: nextPage,
                         )
                       : NextButtonWidget.green(
                           label: "Confirmar",
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResultPage(
+                                    quizModel: widget.quizModel,
+                                    correctAnswers: controller.correctAnswers,
+                                  ),
+                                ));
+                          },
                         ),
                 ),
               ),

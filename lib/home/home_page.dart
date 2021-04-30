@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => ChallengePage(
-                                                  questions: quiz.questions,
+                                                  quizModel: quiz,
                                                 )));
                                   },
                                 ))
