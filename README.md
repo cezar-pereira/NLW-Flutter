@@ -1,16 +1,12 @@
 # nlw_flutter
 
-A new Flutter project.
+App desenvolvido durante a NLW de Flutter da Rocketseat
 
-## Getting Started
+## Mudanças ao apresentado no curso
 
-This project is a starting point for a Flutter application.
+Função compartilhar compartilha o widget como resultado ao invés do simples texto.
+Usei ValueListenableBuilder para escutar o ValueNotifier da homePage
+QuizCardWidget modifiquei para ficar mais fiel ao mockup;
+QuizCardWidget recebe um QuizModel ao invés dos três parâmetros da aula (title, percent e completed);
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
